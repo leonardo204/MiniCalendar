@@ -1,0 +1,21 @@
+# Xcode
+build/
+dist/
+DerivedData/
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+
+# macOS
+.DS_Store
+*.swp
+*~
+
+# Generated
+*.xcodeproj
+
+# Temporary
+icon_temp/
+
+# App specific password (if accidentally saved)
+*.keychain-db

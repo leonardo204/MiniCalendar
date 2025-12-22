@@ -1,0 +1,60 @@
+name: MiniCalendar
+options:
+  bundleIdPrefix: com.zerolive
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+
+targets:
+  MiniCalendar:
+    type: application
+    platform: macOS
+    sources:
+      - path: MiniCalendar
+        excludes:
+          - "**/.DS_Store"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zerolive.MiniCalendar
+        INFOPLIST_FILE: MiniCalendar/Resources/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        COMBINE_HIDPI_IMAGES: YES
+        LD_RUNPATH_SEARCH_PATHS:
+          - $(inherited)
+          - "@executable_path/../Frameworks"
+    info:
+      path: MiniCalendar/Resources/Info.plist
+      properties:
+        CFBundleName: MiniCalendar
+        CFBundleDisplayName: MiniCalendar
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundlePackageType: APPL
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        LSUIElement: true
+        NSMainStoryboardFile: ""
+        NSPrincipalClass: NSApplication
+
+  MiniCalendarTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: MiniCalendarTests
+        excludes:
+          - "**/.DS_Store"
+    dependencies:
+      - target: MiniCalendar
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zerolive.MiniCalendarTests

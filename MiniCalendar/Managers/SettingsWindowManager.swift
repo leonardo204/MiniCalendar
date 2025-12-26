@@ -25,11 +25,12 @@ class SettingsWindowManager {
         // 새 윈도우 생성
         let settingsView = SettingsWindowView()
             .environmentObject(SettingsManager.shared)
+            .environmentObject(HolidayService.shared)
 
         let hostingController = NSHostingController(rootView: settingsView)
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 380, height: 480),
+            contentRect: NSRect(x: 0, y: 0, width: 360, height: 540),
             styleMask: [.titled, .closable, .miniaturizable],
             backing: .buffered,
             defer: false

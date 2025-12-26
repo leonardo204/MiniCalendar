@@ -7,6 +7,12 @@ import AppKit
 import SwiftUI
 import Combine
 
+// MARK: - Notification Names
+
+extension Notification.Name {
+    static let popoverWillShow = Notification.Name("popoverWillShow")
+}
+
 class StatusBarManager: ObservableObject {
     // 메뉴 막대 아이템
     private var statusItem: NSStatusItem?
@@ -54,6 +60,7 @@ class StatusBarManager: ObservableObject {
         popover?.contentViewController = NSHostingController(
             rootView: PopoverView()
                 .environmentObject(SettingsManager.shared)
+                .environmentObject(HolidayService.shared)
         )
     }
 
@@ -116,6 +123,8 @@ class StatusBarManager: ObservableObject {
             if popover.isShown {
                 popover.performClose(nil)
             } else {
+                // 팝오버 표시 전 알림 (현재 달로 리셋용)
+                NotificationCenter.default.post(name: .popoverWillShow, object: nil)
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
                 // 팝오버가 표시되면 포커스 설정
                 popover.contentViewController?.view.window?.makeKey()

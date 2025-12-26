@@ -11,9 +11,11 @@ struct MiniCalendarApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
-        // 메뉴 막대 전용 앱이므로 WindowGroup 대신 Settings만 사용
+        // 설정 창 (Cmd+, 단축키로 열림)
         Settings {
-            EmptyView()
+            SettingsWindowView()
+                .environmentObject(SettingsManager.shared)
+                .environmentObject(HolidayService.shared)
         }
     }
 }

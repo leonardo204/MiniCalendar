@@ -8,22 +8,32 @@ import AppKit
 
 struct CalendarView: View {
     @EnvironmentObject var settingsManager: SettingsManager
+    @EnvironmentObject var holidayService: HolidayService
     @State private var displayedMonth: Date = Date()
 
+    /// 현재 표시 중인 년도
+    private var displayedYear: Int {
+        Calendar.current.component(.year, from: displayedMonth)
+    }
+
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 0) {
             // 헤더 (년/월, 네비게이션)
             CalendarHeaderView(displayedMonth: $displayedMonth)
+                .padding(.bottom, 14)
 
             // 요일 헤더
             WeekdayHeaderView()
+                .padding(.bottom, 8)
 
             // 날짜 그리드
             CalendarGridView(displayedMonth: displayedMonth)
 
             Spacer()
         }
-        .padding(12)
+        .padding(.horizontal, 14)
+        .padding(.top, 14)
+        .padding(.bottom, 10)
         .background(
             ScrollWheelHandler { delta in
                 withAnimation(.easeInOut(duration: 0.2)) {
@@ -34,6 +44,38 @@ struct CalendarView: View {
                     }
                 }
             }
+        )
+        .onReceive(NotificationCenter.default.publisher(for: .popoverWillShow)) { _ in
+            // 팝업 열릴 때마다 현재 달로 리셋
+            displayedMonth = Date()
+        }
+        .task {
+            // 초기 로드: 현재 년도 공휴일
+            await loadHolidaysIfNeeded()
+        }
+        .onChange(of: displayedYear) { newYear in
+            // 년도 변경 시 해당 년도 공휴일 로드
+            Task {
+                await holidayService.loadHolidays(
+                    countryCode: settingsManager.holidayCountryCode,
+                    year: newYear
+                )
+            }
+        }
+        .onChange(of: settingsManager.holidayCountryCode) { newCountryCode in
+            // 국가 변경 시 공휴일 다시 로드
+            Task {
+                await holidayService.changeCountry(to: newCountryCode)
+            }
+        }
+    }
+
+    /// 필요 시 공휴일 로드
+    private func loadHolidaysIfNeeded() async {
+        guard settingsManager.showHolidays else { return }
+        await holidayService.loadHolidays(
+            countryCode: settingsManager.holidayCountryCode,
+            year: displayedYear
         )
     }
 }
@@ -84,5 +126,6 @@ class ScrollWheelNSView: NSView {
 #Preview {
     CalendarView()
         .environmentObject(SettingsManager.shared)
+        .environmentObject(HolidayService.shared)
         .frame(width: 280, height: 300)
 }

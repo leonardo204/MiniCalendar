@@ -12,8 +12,7 @@ struct CalendarHeaderView: View {
         HStack {
             // 년/월 표시
             Text(displayedMonth.monthYearString)
-                .font(.headline)
-                .fontWeight(.semibold)
+                .font(.system(size: 15, weight: .semibold))
 
             Spacer()
 
@@ -24,13 +23,13 @@ struct CalendarHeaderView: View {
                     SettingsWindowManager.shared.openSettings()
                 }) {
                     Image(systemName: "ellipsis.circle")
-                        .font(.system(size: 14))
+                        .font(.system(size: 15))
                         .foregroundColor(.secondary)
                 }
                 .buttonStyle(.plain)
                 .help("Settings")
 
-                Spacer().frame(width: 4)
+                Spacer().frame(width: 2)
 
                 // 이전 년도
                 Button(action: {
@@ -39,8 +38,9 @@ struct CalendarHeaderView: View {
                     }
                 }) {
                     Text("<<")
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.secondary)
+                        .fixedSize()
                 }
                 .buttonStyle(.plain)
                 .help("Previous Year")
@@ -52,7 +52,7 @@ struct CalendarHeaderView: View {
                     }
                 }) {
                     Text("<")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 13, weight: .medium))
                         .foregroundColor(.secondary)
                 }
                 .buttonStyle(.plain)
@@ -78,7 +78,7 @@ struct CalendarHeaderView: View {
                     }
                 }) {
                     Text(">")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.system(size: 13, weight: .medium))
                         .foregroundColor(.secondary)
                 }
                 .buttonStyle(.plain)
@@ -91,8 +91,9 @@ struct CalendarHeaderView: View {
                     }
                 }) {
                     Text(">>")
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.secondary)
+                        .fixedSize()
                 }
                 .buttonStyle(.plain)
                 .help("Next Year")

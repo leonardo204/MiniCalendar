@@ -36,11 +36,20 @@ struct WeekdayHeaderView: View {
     private func weekdayColor(for index: Int) -> Color {
         if settingsManager.weekStartsOnMonday {
             // 월요일 시작: 5 = 토요일, 6 = 일요일
-            return (index == 5 || index == 6) ? .secondary : .primary
+            if index == 6 {
+                return .sundayRed  // 일요일: 붉은색
+            } else if index == 5 {
+                return .secondary  // 토요일: 회색
+            }
         } else {
             // 일요일 시작: 0 = 일요일, 6 = 토요일
-            return (index == 0 || index == 6) ? .secondary : .primary
+            if index == 0 {
+                return .sundayRed  // 일요일: 붉은색
+            } else if index == 6 {
+                return .secondary  // 토요일: 회색
+            }
         }
+        return .primary
     }
 }
 

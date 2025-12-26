@@ -21,6 +21,9 @@ targets:
       - path: MiniCalendar
         excludes:
           - "**/.DS_Store"
+    configFiles:
+      Debug: Secrets.xcconfig
+      Release: Secrets.xcconfig
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.zerolive.MiniCalendar
@@ -47,7 +50,7 @@ targets:
         NSMainStoryboardFile: ""
         NSPrincipalClass: NSApplication
         LSApplicationCategoryType: public.app-category.productivity
-        GoogleCalendarAPIKey: REDACTED_API_KEY
+        GoogleCalendarAPIKey: $(GOOGLE_CALENDAR_API_KEY)
 
   MiniCalendarTests:
     type: bundle.unit-test

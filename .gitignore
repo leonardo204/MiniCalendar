@@ -19,3 +19,6 @@ icon_temp/
 
 # App specific password (if accidentally saved)
 *.keychain-db
+
+# Secrets (API keys, etc.)
+Secrets.xcconfig

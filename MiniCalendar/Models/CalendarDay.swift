@@ -18,8 +18,21 @@ struct CalendarDay: Identifiable {
     /// 오늘 날짜인지 여부
     let isToday: Bool
 
+    /// 공휴일 정보 (nil이면 일반 날짜)
+    var holiday: Holiday?
+
     /// 날짜 숫자 (1-31)
     var dayNumber: Int {
         Calendar.current.component(.day, from: date)
+    }
+
+    /// 일요일 여부
+    var isSunday: Bool {
+        Calendar.current.component(.weekday, from: date) == 1
+    }
+
+    /// 일요일 또는 공휴일 여부
+    var isHolidayOrSunday: Bool {
+        isSunday || holiday != nil
     }
 }

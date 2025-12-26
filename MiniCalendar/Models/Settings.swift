@@ -42,11 +42,25 @@ struct AppSettings: Codable {
     /// 월요일 시작 (false면 일요일 시작)
     var weekStartsOnMonday: Bool
 
+    // MARK: - 공휴일 옵션
+
+    /// 공휴일 표시 여부
+    var showHolidays: Bool
+
+    /// 공휴일 국가 코드 (KR, US, JP 등)
+    var holidayCountryCode: String
+
     // MARK: - 기본값
 
     /// 기본 설정값
     static var `default`: AppSettings {
-        AppSettings(
+        // 시스템 로케일에서 국가 코드 추출
+        let systemCountryCode = Locale.current.region?.identifier ?? "KR"
+        // 지원하는 국가인지 확인, 아니면 KR 사용
+        let supportedCodes = ["KR", "US", "JP", "CN", "GB"]
+        let defaultCountryCode = supportedCodes.contains(systemCountryCode) ? systemCountryCode : "KR"
+
+        return AppSettings(
             openAtLogin: false,
             showOnlyIcon: false,
             showTime: true,
@@ -55,7 +69,9 @@ struct AppSettings: Codable {
             showAMPM: true,
             showDate: true,
             dateFormat: "M월 d일 (E)",
-            weekStartsOnMonday: false
+            weekStartsOnMonday: false,
+            showHolidays: true,
+            holidayCountryCode: defaultCountryCode
         )
     }
 }

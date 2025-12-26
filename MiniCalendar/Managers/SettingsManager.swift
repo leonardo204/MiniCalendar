@@ -48,6 +48,14 @@ class SettingsManager: ObservableObject {
     /// 월요일 시작 (false면 일요일 시작)
     @Published var weekStartsOnMonday: Bool = false
 
+    // MARK: - 공휴일 옵션
+
+    /// 공휴일 표시 여부
+    @Published var showHolidays: Bool = true
+
+    /// 공휴일 국가 코드
+    @Published var holidayCountryCode: String = "KR"
+
     // MARK: - UserDefaults 키
     private let userDefaultsKey = "MiniCalendarSettings"
 
@@ -84,7 +92,9 @@ class SettingsManager: ObservableObject {
             showAMPM: showAMPM,
             showDate: showDate,
             dateFormat: dateFormat,
-            weekStartsOnMonday: weekStartsOnMonday
+            weekStartsOnMonday: weekStartsOnMonday,
+            showHolidays: showHolidays,
+            holidayCountryCode: holidayCountryCode
         )
 
         do {
@@ -106,6 +116,8 @@ class SettingsManager: ObservableObject {
         showDate = settings.showDate
         dateFormat = settings.dateFormat
         weekStartsOnMonday = settings.weekStartsOnMonday
+        showHolidays = settings.showHolidays
+        holidayCountryCode = settings.holidayCountryCode
 
         // SMAppService 상태 확인 후 설정 (didSet 트리거 방지를 위해 직접 할당)
         _openAtLogin = Published(initialValue: settings.openAtLogin)

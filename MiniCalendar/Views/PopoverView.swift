@@ -7,6 +7,7 @@ import SwiftUI
 
 struct PopoverView: View {
     @EnvironmentObject var settingsManager: SettingsManager
+    @EnvironmentObject var holidayService: HolidayService
 
     var body: some View {
         CalendarView()
@@ -17,4 +18,5 @@ struct PopoverView: View {
 #Preview {
     PopoverView()
         .environmentObject(SettingsManager.shared)
+        .environmentObject(HolidayService.shared)
 }
